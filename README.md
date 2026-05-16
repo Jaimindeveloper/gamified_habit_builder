@@ -44,10 +44,11 @@ You will also need a **Gemini API Key** from Google AI Studio.
    ```
 
 3. Set up your environment variables:
-   Create a `.env.local` file in the `habit-builder` directory and add your Gemini API Key:
-   ```env
-   GEMINI_API_KEY=your_google_gemini_api_key_here
-   ```
+   - **Local Development**: Create a `.env.local` file in the `habit-builder` directory:
+     ```env
+     GEMINI_API_KEY=your_google_gemini_api_key_here
+     ```
+   - **Production (Vercel/Netlify)**: Add `GEMINI_API_KEY` as an environment variable in your project's dashboard settings.
 
 4. Add the Gita PDF (Optional but recommended):
    Place your complete Bhagavad Gita PDF file in the `habit-builder/public` folder and name it `gita.pdf`.
@@ -59,7 +60,13 @@ You will also need a **Gemini API Key** from Google AI Studio.
 
 6. Open your browser and navigate to `http://localhost:3000` to start building habits!
 
-## 📂 Project Structure
+## 🌐 Production Deployment
+
+When deploying to a platform like Vercel:
+1. Ensure you add the `GEMINI_API_KEY` to the **Environment Variables** section in the Vercel Dashboard.
+2. If you are using the Gita PDF feature, make sure `public/gita.pdf` is committed to your repository so the server can access it.
+3. If you still see a 403 "Unregistered Callers" error on production, double-check that your API Key is unrestricted or correctly restricted to your production domain in the [Google AI Studio](https://aistudio.google.com/) or Google Cloud Console.
+
 
 - `app/`: Next.js App Router pages including the main dashboard and Gita Wisdom page.
 - `app/api/`: Backend Next.js API routes that interface securely with the Gemini AI model.

@@ -11,7 +11,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Please ask a question" }, { status: 400 })
     }
 
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' })
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error("GEMINI_API_KEY is missing in environment variables");
+      return NextResponse.json(
+        { error: "Configuration Error", details: "Gemini API Key is missing. Please add GEMINI_API_KEY to your environment variables." },
+        { status: 500 }
+      );
+    }
+
+    const ai = new GoogleGenAI({ apiKey })
 
     let pdfContext = null;
     try {
