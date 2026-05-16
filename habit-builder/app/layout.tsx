@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: "Build and sustain positive habits with AI-powered coaching and gamification.",
 };
 
+import { Toaster } from 'sonner';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -20,6 +22,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans min-h-full flex flex-col bg-black text-white">
         {children}
+        <Toaster theme="dark" position="bottom-right" />
       </body>
     </html>
   );

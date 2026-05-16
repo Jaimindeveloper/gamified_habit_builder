@@ -4,6 +4,7 @@ import { useHabitStore } from "@/store/useHabitStore"
 import { motion, AnimatePresence } from "framer-motion"
 import { CheckCircle2, Circle, Flame, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
 export function HabitList() {
   const { habits, toggleHabit, deleteHabit } = useHabitStore()
@@ -17,6 +18,20 @@ export function HabitList() {
   }
 
   const today = new Date().toISOString().split('T')[0]
+
+  const handleToggle = (id: string, title: string, isCompletedToday: boolean) => {
+    toggleHabit(id);
+    if (!isCompletedToday) {
+      toast.success(`+20 XP! Great job completing ${title}!`, {
+        icon: '✨'
+      });
+    } else {
+      toast('Habit unmarked', {
+        description: '-20 XP deducted',
+        icon: '🔄'
+      });
+    }
+  }
 
   return (
     <div className="flex flex-col gap-3">
@@ -42,7 +57,7 @@ export function HabitList() {
             >
               <div className="flex items-center gap-4">
                 <button
-                  onClick={() => toggleHabit(habit.id)}
+                  onClick={() => handleToggle(habit.id, habit.title, isCompletedToday)}
                   className={cn(
                     "rounded-full transition-colors",
                     isCompletedToday ? "text-indigo-500 hover:text-indigo-400" : "text-zinc-500 hover:text-indigo-400"

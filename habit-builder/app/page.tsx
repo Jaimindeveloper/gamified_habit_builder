@@ -7,17 +7,36 @@ import { AICoach } from "@/components/AICoach"
 import { UserDetails } from "@/components/UserDetails"
 import { Trophy, Star, Target, Book } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { motion } from "framer-motion"
+import confetti from "canvas-confetti"
+import { toast } from "sonner"
 
 export default function Home() {
   const { xp, level } = useHabitStore()
   const [mounted, setMounted] = useState(false)
+  const prevLevelRef = useRef(level)
 
   // Prevent hydration mismatch with Zustand persist
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  useEffect(() => {
+    if (mounted && level > prevLevelRef.current) {
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#6366f1', '#a855f7', '#ec4899', '#f59e0b']
+      })
+      toast.success(`Level Up! You reached Level ${level}!`, {
+        icon: '🏆',
+        duration: 5000,
+      })
+    }
+    prevLevelRef.current = level
+  }, [level, mounted])
 
   if (!mounted) return null
 
